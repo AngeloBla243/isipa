@@ -102,10 +102,9 @@
                     <input type="date" class="form-control" name="date" value="{{ Request::get('date') }}" >
                   </div>
 
-                  <div class="form-group col-md-2">
+                  <div class="form-group col-md-2" style="min-width: 200px;">
                     <button class="btn btn-primary" type="submit" style="margin-top: 30px;"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
                     <a href="{{ url('admin/assign_class_teacher/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
-
                   </div>
 
                   </div>
@@ -132,6 +131,7 @@
                       <th>Class Name</th>
                       <th style="min-width: 200px;">Teacher Name</th>
                       <th>Status</th>
+                      <th>Subject</th>
                       <th style="min-width: 200px;">Created By</th>
                       <th style="min-width: 200px;">Created Date</th>
                       <th>Action</th>
@@ -150,12 +150,15 @@
                               Inactive
                             @endif
                           </td>
+                          <td style="min-width: 200px;">{{ $value->subject_name }}</td>
                           <td>{{ $value->created_by_name }}</td>
                           <td style="min-width: 100px;">{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
-                          <td style="min-width: 400px;">
+                          <td style="min-width: 500px;">
                                <a href="{{ url('admin/assign_class_teacher/edit/'.$value->id) }}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</a>
 
-                               <a href="{{ url('admin/assign_class_teacher/edit_single/'.$value->id) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Single</a>
+                               <a href="{{ url('admin/assign_class_teacher/edit_single/'.$value->id) }}" class="btn btn-info"><i class="fas fa-edit"></i> Edit Single</a>
+
+                               <a href="{{ url('admin/assign_class_teacher/assign_subject_subject') }}" id="editTeacherLink" class="btn btn-warning"><i class="fa-solid fa-book"></i> Assign Subject</a>
 
                                 <a href="{{ url('admin/assign_class_teacher/delete/'.$value->id) }}" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
 

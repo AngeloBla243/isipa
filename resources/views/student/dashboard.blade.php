@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -46,8 +46,8 @@
             </div>
           </div>
 
-   
-        
+
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
               <div class="inner">
@@ -61,7 +61,7 @@
             </div>
           </div>
 
-            
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-primary">
               <div class="inner">
@@ -104,10 +104,10 @@
             </div>
           </div>
 
-         
+
         </div>
-   
-       
+
+
       </div>
     </section>
   </div>

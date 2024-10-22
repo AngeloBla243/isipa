@@ -156,9 +156,10 @@
                                                 <td>{{ $value->subject_name }}</td>
                                                 <td>{{ $value->subject_type }}</td>
                                                 <td style="min-width: 300px;"><a href="" data-toggle="modal"
-                                                    data-target="#addFeesModal"
-                                                    data-subjectid="{{ $value->subject_id }}"
-                                                    class="btn btn-info openModal"><i class="fas fa-edit"></i> Faire votre recours</a>
+                                                        data-target="#addFeesModal"
+                                                        data-subjectid="{{ $value->subject_id }}"
+                                                        class="btn btn-info openModal"><i class="fas fa-edit"></i> Faire
+                                                        votre recours</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -266,6 +267,13 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalMessage"></p>
         </div>
     </div>
 @endsection

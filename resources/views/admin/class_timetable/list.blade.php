@@ -207,7 +207,7 @@
     $('.getClass').change(function() {
         var class_id = $(this).val();
         $.ajax({
-          url: "{{ url('assign_class_teacher/get_subjects_by_class') }}",
+          url: "{{ url('admin/class_timetable/get_subject') }}",
           type: "POST",
           data:{
             "_token": "{{ csrf_token() }}",

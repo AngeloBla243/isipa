@@ -180,10 +180,14 @@ class ExaminationsController extends Controller
     public function marks_register_teacher(Request $request)
     {
         $data['getClass'] = AssignClassTeacherModel::getMyClassSubjectGroup(Auth::user()->id);
+        // dd($data['getClass']);
         $data['getExam'] = ExamScheduleModel::getExamTeacher(Auth::user()->id);
+        // dd($data['getExam']);
 
         if (!empty($request->get('exam_id')) && !empty($request->get('class_id'))) {
-            $data['getSubject'] = ExamScheduleModel::getSubject($request->get('exam_id'), $request->get('class_id'));
+            $data['getSubject'] = ExamScheduleModel::getSubject_teacher($request->get('exam_id'), $request->get('class_id'), Auth::user()->id);
+            // dd($data['getSubject']);
+
 
             $data['getStudent'] = User::getStudentClass($request->get('class_id'));
         }
@@ -458,44 +462,47 @@ class ExaminationsController extends Controller
 
     // teacher side work
 
+
+
     public function MyExamTimetableTeacher()
     {
-        $result = array();
+        $result = [];
         $getClass = AssignClassTeacherModel::getMyClassSubjectGroup(Auth::user()->id);
+
         foreach ($getClass as $class) {
-            $dataC = array();
-            $dataC['class_name'] =  $class->class_name;
+            $dataC = [];
+            $dataC['class_name'] = $class->class_name;
+            $classId = $class->class_id; // On récupère l'ID de la classe
 
-            $getExam = ExamScheduleModel::getExam($class->class_id);
-            $examArray = array();
-            foreach ($getExam as $exam) {
-                $dataE = array();
-                $dataE['exam_name'] = $exam->exam_name;
-
-                $getExamTimetable = ExamScheduleModel::getExamTimetable($exam->exam_id, $class->class_id);
-                $subjectArray = array();
-                foreach ($getExamTimetable as $valueS) {
-                    $dataS = array();
-                    $dataS['subject_name'] = $valueS->subject_name;
-                    $dataS['exam_date'] = $valueS->exam_date;
-                    $dataS['start_time'] = $valueS->start_time;
-                    $dataS['end_time'] = $valueS->end_time;
-                    $dataS['room_number'] = $valueS->room_number;
-                    $dataS['full_marks'] = $valueS->full_marks;
-                    $dataS['passing_mark'] = $valueS->passing_mark;
-                    $subjectArray[] = $dataS;
-                }
-
-                $dataE['subject'] = $subjectArray;
-                $examArray[] = $dataE;
+            // Vérifie si la classe a déjà été ajoutée au résultat
+            if (isset($result[$classId])) {
+                continue; // Passer si la classe existe déjà
             }
-            $dataC['exam'] = $examArray;
 
-            $result[] = $dataC;
+            // Récupérer les examens pour cette classe
+            $getExam = ExamScheduleModel::getExam($classId);
+            $examData = [];
+
+            foreach ($getExam as $exam) {
+                $getExamTimetable = ExamScheduleModel::getExamTimetable1($exam->exam_id, $classId, Auth::user()->id);
+
+                // Si l'examen a des sujets, on les ajoute à l'examen
+                if ($getExamTimetable->count() > 0) {
+                    $examData[] = [
+                        'exam_name' => $exam->exam_name,
+                        'subjects' => $getExamTimetable,
+                    ];
+                }
+            }
+
+            // Si l'examen a été trouvé pour la classe, on ajoute à $result
+            if (!empty($examData)) {
+                $dataC['exam'] = $examData;
+                $result[$classId] = $dataC; // Utilise l'ID de la classe comme clé
+            }
         }
 
-        $data['getRecord'] = $result;
-
+        $data['getRecord'] = array_values($result); // Réinitialise les clés
         $data['header_title'] = "My Exam Timetable";
         return view('teacher.my_exam_timetable', $data);
     }

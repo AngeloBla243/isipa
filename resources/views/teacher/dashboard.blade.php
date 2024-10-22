@@ -14,13 +14,13 @@
         </div>
       </div>
     </div>
-    
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-       
 
-          
+
+
           <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
               <div class="inner">
@@ -81,12 +81,12 @@
               <a href="{{ url('teacher/my_notice_board') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-         
 
-         
+
+
         </div>
-   
-       
+
+
       </div>
     </section>
   </div>

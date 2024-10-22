@@ -68,6 +68,10 @@ class SubjectModel extends Model
         return $return;
     }
 
+    public function classSubjects() {
+        return $this->hasMany(ClassSubjectModel::class, 'subject_id');
+    }
+
 
 
 }

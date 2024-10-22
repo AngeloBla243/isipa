@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ClassSubjectModel;
 use App\Models\ClassModel;
 use App\Models\SubjectModel;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ClassSubjectController extends Controller
 {
@@ -30,7 +30,7 @@ class ClassSubjectController extends Controller
     {
         if(!empty($request->subject_id))
         {
-            foreach ($request->subject_id as $subject_id) 
+            foreach ($request->subject_id as $subject_id)
             {
                 $getAlreadyFirst = ClassSubjectModel::getAlreadyFirst($request->class_id, $subject_id);
                 if(!empty($getAlreadyFirst))
@@ -45,7 +45,7 @@ class ClassSubjectController extends Controller
                     $save->subject_id = $subject_id;
                     $save->status = $request->status;
                     $save->created_by = Auth::user()->id;
-                    $save->save();    
+                    $save->save();
                 }
             }
 
@@ -67,13 +67,13 @@ class ClassSubjectController extends Controller
             $data['getClass'] = ClassModel::getClass();
             $data['getSubject'] = SubjectModel::getSubject();
             $data['header_title'] = "Edit Assign Subject";
-            return view('admin.assign_subject.edit', $data);    
+            return view('admin.assign_subject.edit', $data);
         }
         else
         {
             abort(404);
         }
-        
+
     }
 
     public function update(Request $request)
@@ -82,7 +82,7 @@ class ClassSubjectController extends Controller
 
         if(!empty($request->subject_id))
         {
-            foreach ($request->subject_id as $subject_id) 
+            foreach ($request->subject_id as $subject_id)
             {
                 $getAlreadyFirst = ClassSubjectModel::getAlreadyFirst($request->class_id, $subject_id);
                 if(!empty($getAlreadyFirst))
@@ -97,9 +97,9 @@ class ClassSubjectController extends Controller
                     $save->subject_id = $subject_id;
                     $save->status = $request->status;
                     $save->created_by = Auth::user()->id;
-                    $save->save();    
+                    $save->save();
                 }
-            }          
+            }
         }
 
         return redirect('admin/assign_subject/list')->with('success', "Subject Sucessfully Assign to Class");
@@ -123,7 +123,7 @@ class ClassSubjectController extends Controller
             $data['getClass'] = ClassModel::getClass();
             $data['getSubject'] = SubjectModel::getSubject();
             $data['header_title'] = "Edit Assign Subject";
-            return view('admin.assign_subject.edit_single', $data);    
+            return view('admin.assign_subject.edit_single', $data);
         }
         else
         {
@@ -148,10 +148,10 @@ class ClassSubjectController extends Controller
                 $save->class_id = $request->class_id;
                 $save->subject_id = $request->subject_id;
                 $save->status = $request->status;
-                $save->save();    
+                $save->save();
 
                 return redirect('admin/assign_subject/list')->with('success', "Subject Sucessfully Assign to Class");
-            }                    
+            }
     }
 
 

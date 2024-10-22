@@ -157,7 +157,7 @@
 
                                                                 @php
                                                                     $totalFullMarks = $totalFullMarks + ($subject->full_marks * $subject->ponde);
-                                                                    $totalPassinglMarks = $totalPassinglMarks + ($subject->passing_mark * $subject->ponderation);
+                                                                    $totalPassinglMarks = $totalPassinglMarks + ($subject->passing_mark * $subject->ponde);
                                                                     $totalMark = 0;
                                                                     $totalMarks = 0;
                                                                     $getMark = $subject->getMark($student->id, Request::get('exam_id'), Request::get('class_id'), $subject->subject_id);
