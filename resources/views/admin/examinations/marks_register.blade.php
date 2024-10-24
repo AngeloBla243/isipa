@@ -257,6 +257,7 @@
                                                                             data-exam="{{ Request::get('exam_id') }}"
                                                                             data-schedule="{{ $subject->id }}"
                                                                             data-class="{{ Request::get('class_id') }}">Save</button>
+
                                                                     </div>
 
                                                                     @if (!empty($getMark))
@@ -291,6 +292,7 @@
                                                             <td style="min-width: 230px;">
                                                                 <button type="submit"
                                                                     class="btn btn-success">Save</button>
+                                                                    <a class="btn btn-primary" target="_blank" href="{{ url('admin/my_exam_result/print?exam_id='.Request::get('exam_id').'&student_id='.$student->id) }}">Print</a>
                                                                 @if (!empty($totalStudentMark))
                                                                     <br>
                                                                     <br>

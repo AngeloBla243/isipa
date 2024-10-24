@@ -442,6 +442,7 @@ class ExaminationsController extends Controller
         $dataSubject = array();
         foreach ($getExamSubject as $exam) {
             $total_score = $exam['class_work'] +  $exam['test_work'] + $exam['home_work'] + $exam['exam'];
+            $totals_score = $total_score * $exam['ponde'];
 
             $dataS = array();
             $dataS['subject_name'] = $exam['subject_name'];
@@ -450,6 +451,8 @@ class ExaminationsController extends Controller
             $dataS['home_work'] = $exam['home_work'];
             $dataS['exam'] = $exam['exam'];
             $dataS['total_score'] = $total_score;
+            $dataS['totals_score'] = $totals_score;
+            $dataS['ponde'] = $exam['ponde'];
             $dataS['full_marks'] = $exam['full_marks'];
             $dataS['passing_mark'] = $exam['passing_mark'];
             $dataSubject[] = $dataS;

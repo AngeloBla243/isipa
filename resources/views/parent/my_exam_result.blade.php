@@ -26,6 +26,7 @@
                     <div class="col-sm-6">
                         <h1>My Exam Result <span style="color: blue">({{ $getStudent->name }} {{ $getStudent->last_name }})</span></h1>
                     </div>
+
                 </div>
             </div><!-- /.container-fluid -->
         </section>
@@ -46,6 +47,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">{{ $value['exam_name'] }}</h3>
+                                <a class="btn btn-primary btn-sm" style="float: right;" target="_blank" href="{{ url('parent/my_exam_result/print?exam_id='.$value['exam_id'].'&student_id='.$getStudent->id) }}">Print</a>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body p-0" style="overflow: auto;">

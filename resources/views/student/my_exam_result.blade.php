@@ -97,19 +97,16 @@
                             <td colspan="1">
                                 <b>Grand Total: {{ $Grandtotals_score }}/{{ $full_marks }}</b>
                             </td>
-                            <td colspan="1">
+                            <td colspan="2">
                                 @php
                                    $pourcentage = ($Grandtotals_score * 100) / $full_marks;
                                    $getGrade = App\Models\MarksGradeModel::getGrade($pourcentage);
                                 @endphp
-                                <b>Pourcentage: {{ round($pourcentage) }}%</b>
-                                <br />
-                                <b>Grade : {{ $getGrade }}</b>
+                                {{-- <b>Pourcentage: {{ round($pourcentage) }}%</b> --}}
+                                {{-- <br />
+                                <b>Grade : {{ $getGrade }}</b> --}}
 
                             </td>
-                            <td colspan="1"><b>Pourcentage: {{ round(($Grandtotals_score * 100) / $full_marks)}}%</b>
-                               <br /><b> Echecs: {{ $fail_count}}</b></td>
-
                         </tr>
                     </tbody>
                 </table>

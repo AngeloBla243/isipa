@@ -50,6 +50,12 @@ class ParentMiddleware
             }
         }
 
+        else
+        {
+             Auth::logout();
+            return redirect(url(''));
+        }
+
         // Si l'utilisateur n'est pas authentifié, on le redirige vers la page de connexion
         // return redirect(url(''))->with('error', 'Veuillez vous connecter.');
     }
