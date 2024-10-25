@@ -6,17 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ClassModel;
 use App\Exports\ExportStudent;
-use Hash;
-use Auth;
-use Str;
-use Excel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\StudentAttendanceModel;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class StudentController extends Controller
 {
     public function export_excel(Request $request)
     {
-        return Excel::download(new ExportStudent, 'Student_'.date('d-m-Y').'.xls');        
+        return Excel::download(new ExportStudent, 'Student_'.date('d-m-Y').'.xls');
     }
 
     public function list()
@@ -40,12 +41,12 @@ class StudentController extends Controller
             'email' => 'required|email|unique:users',
             'weight' => 'max:10',
             'blood_group' => 'max:10',
-            'mobile_number' => 'max:15|min:8',            
+            'mobile_number' => 'max:15|min:8',
             'admission_number' => 'max:50',
             'roll_number' => 'max:50',
             'caste' => 'max:50',
             'religion' => 'max:50',
-            'height' => 'max:10'            
+            'height' => 'max:10'
         ]);
 
 
@@ -59,18 +60,18 @@ class StudentController extends Controller
 
         if(!empty($request->date_of_birth))
         {
-            $student->date_of_birth = trim($request->date_of_birth);    
+            $student->date_of_birth = trim($request->date_of_birth);
         }
 
         if(!empty($request->file('profile_pic')))
         {
             $ext = $request->file('profile_pic')->getClientOriginalExtension();
-            $file = $request->file('profile_pic');   
+            $file = $request->file('profile_pic');
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr).'.'.$ext;
             $file->move('upload/profile/', $filename);
-            
-            $student->profile_pic = $filename;            
+
+            $student->profile_pic = $filename;
         }
 
         $student->caste = trim($request->caste);
@@ -79,9 +80,9 @@ class StudentController extends Controller
 
         if(!empty($request->admission_date))
         {
-            $student->admission_date = trim($request->admission_date);    
+            $student->admission_date = trim($request->admission_date);
         }
-        
+
         $student->blood_group = trim($request->blood_group);
         $student->height = trim($request->height);
         $student->weight = trim($request->weight);
@@ -92,8 +93,8 @@ class StudentController extends Controller
         $student->save();
 
         return redirect('admin/student/list')->with('success', "Student Successfully Created");
-        
-        
+
+
     }
 
     public function edit($id)
@@ -103,13 +104,13 @@ class StudentController extends Controller
         {
             $data['getClass'] = ClassModel::getClass();
             $data['header_title'] = "Edit Student";
-            return view('admin.student.edit',$data);    
+            return view('admin.student.edit',$data);
         }
         else
         {
             abort(404);
         }
-        
+
     }
 
     public function update($id, Request $request)
@@ -118,12 +119,12 @@ class StudentController extends Controller
             'email' => 'required|email|unique:users,email,'.$id,
             'weight' => 'max:10',
             'blood_group' => 'max:10',
-            'mobile_number' => 'max:15|min:8',            
+            'mobile_number' => 'max:15|min:8',
             'admission_number' => 'max:50',
             'roll_number' => 'max:50',
             'caste' => 'max:50',
             'religion' => 'max:50',
-            'height' => 'max:10'            
+            'height' => 'max:10'
         ]);
 
 
@@ -137,7 +138,7 @@ class StudentController extends Controller
 
         if(!empty($request->date_of_birth))
         {
-            $student->date_of_birth = trim($request->date_of_birth);    
+            $student->date_of_birth = trim($request->date_of_birth);
         }
 
         if(!empty($request->file('profile_pic')))
@@ -148,11 +149,11 @@ class StudentController extends Controller
             }
 
             $ext = $request->file('profile_pic')->getClientOriginalExtension();
-            $file = $request->file('profile_pic');   
+            $file = $request->file('profile_pic');
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr).'.'.$ext;
             $file->move('upload/profile/', $filename);
-            $student->profile_pic = $filename;            
+            $student->profile_pic = $filename;
         }
 
         $student->caste = trim($request->caste);
@@ -161,9 +162,9 @@ class StudentController extends Controller
 
         if(!empty($request->admission_date))
         {
-            $student->admission_date = trim($request->admission_date);    
+            $student->admission_date = trim($request->admission_date);
         }
-        
+
         $student->blood_group = trim($request->blood_group);
         $student->height = trim($request->height);
         $student->weight = trim($request->weight);
@@ -172,9 +173,9 @@ class StudentController extends Controller
 
         if(!empty($request->password))
         {
-            $student->password = Hash::make($request->password);    
+            $student->password = Hash::make($request->password);
         }
-        
+
         $student->save();
 
         return redirect('admin/student/list')->with('success', "Student Successfully Updated");
@@ -199,11 +200,36 @@ class StudentController extends Controller
 
     // teacher side work
 
+    // public function MyStudent()
+    // {
+    //     $data['getRecord'] = User::getTeacherStudent(Auth::user()->id);
+    //     $data['header_title'] = "My Student List";
+    //     return view('teacher.my_student',$data);
+    // }
+
     public function MyStudent()
-    {
-        $data['getRecord'] = User::getTeacherStudent(Auth::user()->id);
-        $data['header_title'] = "My Student List";
-        return view('teacher.my_student',$data);
+{
+    $students = User::getTeacherStudent(Auth::user()->id);
+
+    foreach ($students as $student) {
+        $attendanceRecords = studentAttendanceModel::getRecordStudent($student->id);
+        $totalDays = $attendanceRecords->count();
+
+        if ($totalDays > 0) {
+            $presentDays = $attendanceRecords->where('attendance_type', 1)->count();
+            $absentDays = $attendanceRecords->where('attendance_type', 3)->count();
+            $presentPercentage = ($presentDays / $totalDays) * 100;
+        } else {
+            $presentPercentage = 0;
+        }
+
+        // Ajouter les taux de présence pour chaque étudiant
+        $student->attendanceRate = $presentPercentage;
     }
+
+    $data['getRecord'] = $students;
+    $data['header_title'] = "My Student List";
+    return view('teacher.my_student', $data);
+}
 
 }

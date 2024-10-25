@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Exports\ExportParent;
-use Hash;
-use Auth;
-use Str;
-use Excel;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ParentController extends Controller
 {
     public function export_excel(Request $request)
     {
-         return Excel::download(new ExportParent, 'Parent_'.date('d-m-Y').'.xls');  
+         return Excel::download(new ExportParent, 'Parent_'.date('d-m-Y').'.xls');
     }
 
     public function list()
@@ -35,9 +35,9 @@ class ParentController extends Controller
     {
         request()->validate([
             'email' => 'required|email|unique:users',
-            'mobile_number' => 'max:15|min:8',            
+            'mobile_number' => 'max:15|min:8',
             'address' => 'max:255',
-            'occupation' => 'max:255'            
+            'occupation' => 'max:255'
         ]);
 
 
@@ -51,12 +51,12 @@ class ParentController extends Controller
         if(!empty($request->file('profile_pic')))
         {
             $ext = $request->file('profile_pic')->getClientOriginalExtension();
-            $file = $request->file('profile_pic');   
+            $file = $request->file('profile_pic');
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr).'.'.$ext;
             $file->move('upload/profile/', $filename);
-            
-            $student->profile_pic = $filename;            
+
+            $student->profile_pic = $filename;
         }
 
         $student->mobile_number = trim($request->mobile_number);
@@ -76,22 +76,22 @@ class ParentController extends Controller
         if(!empty($data['getRecord']))
         {
             $data['header_title'] = "Edit Parent";
-            return view('admin.parent.edit',$data);    
+            return view('admin.parent.edit',$data);
         }
         else
         {
             abort(404);
         }
-        
+
     }
 
     public function update($id, Request $request)
     {
          request()->validate([
             'email' => 'required|email|unique:users,email,'.$id,
-            'mobile_number' => 'max:15|min:8',            
+            'mobile_number' => 'max:15|min:8',
             'address' => 'max:255',
-            'occupation' => 'max:255'         
+            'occupation' => 'max:255'
         ]);
 
 
@@ -111,12 +111,12 @@ class ParentController extends Controller
             }
 
             $ext = $request->file('profile_pic')->getClientOriginalExtension();
-            $file = $request->file('profile_pic');   
+            $file = $request->file('profile_pic');
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr).'.'.$ext;
             $file->move('upload/profile/', $filename);
-            
-            $student->profile_pic = $filename;            
+
+            $student->profile_pic = $filename;
         }
 
         $student->mobile_number = trim($request->mobile_number);
@@ -124,9 +124,9 @@ class ParentController extends Controller
         $student->email = trim($request->email);
         if(!empty($request->password))
         {
-            $student->password = Hash::make($request->password);    
+            $student->password = Hash::make($request->password);
         }
-        
+
         $student->save();
 
         return redirect('admin/parent/list')->with('success', "Parent Successfully Updated");
@@ -155,7 +155,7 @@ class ParentController extends Controller
         $data['parent_id'] = $id;
         $data['getSearchStudent'] = User::getSearchStudent();
         $data['getRecord'] = User::getMyStudent($id);
-        
+
         $data['header_title'] = "Parent Student List";
         return view('admin.parent.my_student',$data);
     }
@@ -180,16 +180,16 @@ class ParentController extends Controller
     }
 
 
-    // parent side 
+    // parent side
 
     public function myStudentParent()
-    {   
+    {
         $id = Auth::user()->id;
         $data['getRecord'] = User::getMyStudent($id);
-        
+
         $data['header_title'] = "My Student";
         return view('parent.my_student',$data);
     }
-    
+
 
 }

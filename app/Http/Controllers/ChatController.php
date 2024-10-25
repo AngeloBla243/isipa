@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\ChatModel;
-use Str;
+use Illuminate\Support\Str;
 
 
 class ChatController extends Controller
@@ -25,7 +25,7 @@ class ChatController extends Controller
                 return redirect()->back()->with('error', 'Due to some error please try again');
                 exit();
             }
-            
+
             ChatModel::updateCount($sender_id, $receiver_id);
             $data['receiver_id'] = $receiver_id;
             $data['getReceiver'] = User::getSingle($receiver_id);
@@ -53,12 +53,12 @@ class ChatController extends Controller
         if(!empty($request->file('file_name')))
         {
             $ext = $request->file('file_name')->getClientOriginalExtension();
-            $file = $request->file('file_name');   
+            $file = $request->file('file_name');
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr).'.'.$ext;
             $file->move('upload/chat/', $filename);
-            
-            $chat->file = $filename;            
+
+            $chat->file = $filename;
         }
 
         $chat->save();

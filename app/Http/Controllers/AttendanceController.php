@@ -9,7 +9,7 @@ use App\Models\StudentAttendanceModel;
 use App\Models\AssignClassTeacherModel;
 use App\Exports\ExportAttendance;
 use Illuminate\Support\Facades\Auth;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class AttendanceController extends Controller

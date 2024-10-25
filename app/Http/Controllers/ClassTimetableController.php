@@ -9,7 +9,7 @@ use App\Models\ClassSubjectModel;
 use App\Models\WeekModel;
 use App\Models\ClassSubjectTimetableModel;
 use App\Models\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 
 

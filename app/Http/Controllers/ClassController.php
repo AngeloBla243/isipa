@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\ClassModel;
 
 class ClassController extends Controller
@@ -40,12 +40,12 @@ class ClassController extends Controller
         if(!empty($data['getRecord']))
         {
             $data['header_title'] = "Edit Class";
-            return view('admin.class.edit', $data);    
+            return view('admin.class.edit', $data);
         }
         else
         {
             abort(404);
-        }        
+        }
     }
 
     public function update($id, Request $request)

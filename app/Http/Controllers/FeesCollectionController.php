@@ -9,9 +9,9 @@ use App\Models\StudentAddFeesModel;
 use App\Models\SettingModel;
 use Stripe\Stripe;
 use App\Exports\ExportCollectFees;
-use Auth;
-use Session;
-use Excel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FeesCollectionController extends Controller
 {

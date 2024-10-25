@@ -8,8 +8,7 @@ use App\Exports\ExportTeacher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Excel;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class TeacherController extends Controller
 {

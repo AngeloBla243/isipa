@@ -25,31 +25,36 @@
             border-radius: 8px;
             margin-bottom: 6px;
             border: 1px solid #dee2e6;
-            transition: all 0.3s ease-in-out; /* Transition douce */
+            transition: all 0.3s ease-in-out;
         }
+
 
         /* Effet de survol sur les éléments de la liste */
         .list-group-item1:hover {
-            background-color: #e0f7fa; /* Couleur d'arrière-plan bleu clair */
-            transform: translateX(5px); /* Légère translation à droite */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+            background-color: #e0f7fa;
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         /* Style des icônes de cours */
         .course-icon {
             margin-right: 10px;
             font-size: 20px;
-            color: #1e88e5; /* Couleur de l'icône bleue */
+            color: #1e88e5;
+            /* Couleur de l'icône bleue */
         }
 
         /* Effet d'ombre sur l'image de profil */
         .profile-user-img {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Ombre subtile autour de l'image */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Ombre subtile autour de l'image */
         }
 
         /* Style pour les titres */
-        h1, h5 {
-            color: #a90000; /* Couleur rouge personnalisée */
+        h1,
+        h5 {
+            color: #a90000;
+            /* Couleur rouge personnalisée */
             font-weight: bold;
         }
 
@@ -85,7 +90,8 @@
 
         /* Padding du ul ajusté */
         ul.list-group1 {
-            padding-left: 10px; /* Ajout de padding à gauche */
+            padding-left: 10px;
+            /* Ajout de padding à gauche */
         }
 
         /* Media query pour les grands écrans (ordinateurs) */
@@ -190,11 +196,12 @@
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <b style="text-align: center"><i class="fa-solid fa-envelope"></i> {{ Auth::user()->email }}</b>
-                            <b style="text-align: center"><i class="fa-solid fa-phone"></i> {{ Auth::user()->mobile_number }}</b>
+                            <b style="text-align: center"><i class="fa-solid fa-phone"></i>
+                                {{ Auth::user()->mobile_number }}</b>
 
                             <a href="javascript:void(0)"
                                 class="mt-2 waves-effect waves-dark btn btn-blue btn-md btn-rounded">
-                                ID: {{ Auth::user()->admission_number }}
+                                ID : {{ Auth::user()->admission_number }}
                             </a>
 
                             <b style="text-align: center">{{ $TotalSubject }}</b>
