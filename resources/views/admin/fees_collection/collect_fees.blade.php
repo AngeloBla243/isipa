@@ -138,13 +138,13 @@
                 <table class="table styled-table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Student ID</th>
-                      <th>Student Name</th>
-                      <th>Class Name</th>
-                      <th>Total Amount</th>
-                      <th>Paid Amount</th>
-                      <th>Remaning Amount</th>
-                      <th>Created Date</th>
+                      <th style="min-width: 180px;">Student ID</th>
+                      <th style="min-width: 180px;">Student Name</th>
+                      <th style="min-width: 180px;">Class Name</th>
+                      <th style="min-width: 180px;">Total Amount</th>
+                      <th style="min-width: 180px;">Paid Amount</th>
+                      <th style="min-width: 180px;">Remaning Amount</th>
+                      <th style="min-width: 180px;">Created Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>

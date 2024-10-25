@@ -231,7 +231,7 @@
             </tbody>
         </table>
 
-        <table class="summary-table">
+        <table class="summary-table" style="overflow: auto;">
             <tr>
                 <th>Total à obtenir sur 70%</th>
                 <th>Total obtenu</th>

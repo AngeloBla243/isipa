@@ -191,7 +191,7 @@ button.download-btn:active {
                           </td>
                           <td>{{ $value->created_by_name }}</td>
                           <td>{{ date('d-m-Y', strtotime($value->created_at)) }}</td>
-                          <td style="min-width: 400px;">
+                          <td style="min-width: 500px;">
                              <a href="{{ url('admin/homework/homework/edit/'.$value->id) }}" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
                              <a href="{{ url('admin/homework/homework/delete/'.$value->id) }}" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
 
