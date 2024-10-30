@@ -112,7 +112,7 @@
                   </div>
 
 
-                  <div class="form-group col-md-2">
+                  <div class="form-group col-md-3">
                     <button class="btn btn-primary" type="submit" style="margin-top: 30px;"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
                     <a href="{{ url('admin/fees_collection/collect_fees') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
 

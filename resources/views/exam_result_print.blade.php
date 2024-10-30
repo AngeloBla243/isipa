@@ -33,7 +33,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             margin: 0;
         }
 
@@ -43,7 +45,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
@@ -121,7 +124,8 @@
             display: block;
         }
 
-        .summary-table th, .summary-table td {
+        .summary-table th,
+        .summary-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
@@ -139,11 +143,13 @@
                 height: 80px;
             }
 
-            .title-text h2, .title-text h3 {
+            .title-text h2,
+            .title-text h3 {
                 font-size: 1.2em;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px;
             }
         }
@@ -161,7 +167,8 @@
 
         @media print {
             .header {
-                display: none; /* Hide the header during print */
+                display: none;
+                /* Hide the header during print */
             }
         }
     </style>
@@ -203,6 +210,7 @@
                     $echecsLourd = 0;
                     $echecsLeger = 0;
                     $hasFailed = false;
+                    $zeroScoreFound = false;
                 @endphp
                 @foreach ($getExamMark as $exam)
                     @php
@@ -211,8 +219,7 @@
                         $full_marks += $exam['full_marks'] * $exam['ponde'];
 
                         if (is_null($total_score) || $total_score === 0) {
-                            $echecsLourd++;
-                            $hasFailed = true;
+                            $zeroScoreFound = true; // On marque qu'un score zéro a été trouvé
                         } elseif ($total_score < 8) {
                             $echecsLourd++;
                             $hasFailed = true;
@@ -223,7 +230,8 @@
                     <tr>
                         <td>{{ $exam['subject_name'] }}</td>
                         <td>{{ $exam['ponde'] }}</td>
-                        <td class="{{ is_null($total_score) || $total_score === 0 ? 'note-rouge' : ($total_score < 10 ? 'note-rouge' : 'note-verte') }}">
+                        <td
+                            class="{{ is_null($total_score) || $total_score === 0 ? 'note-rouge' : ($total_score < 10 ? 'note-rouge' : 'note-verte') }}">
                             {{ is_null($total_score) || $total_score === 0 ? 'ND' : $total_score }}
                         </td>
                     </tr>
@@ -244,12 +252,13 @@
                 <td>{{ $full_marks }}</td>
                 <td>
                     @php
-                        echo ($hasFailed || $Grandtotals_score === 0) ? 'ND' : $Grandtotals_score;
+                        // On affiche ND seulement si un score à zéro a été trouvé
+                        echo $zeroScoreFound ? 'ND' : $Grandtotals_score;
                     @endphp
                 </td>
                 <td>
                     @php
-                        if ($hasFailed || $Grandtotals_score === 0) {
+                        if ($zeroScoreFound) {
                             echo 'ND';
                         } else {
                             $pourcentage = round(($Grandtotals_score * 100) / $full_marks);
@@ -261,11 +270,18 @@
                 <td>{{ $echecsLeger > 0 ? $echecsLeger : '0' }}</td>
                 <td>
                     @php
-                        if ($Grandtotals_score === 0 || $hasFailed) {
+                        if ($Grandtotals_score === 0 || $zeroScoreFound) {
                             $decision = 'AA';
                         } else {
                             $pourcentage = round(($Grandtotals_score * 100) / $full_marks);
-                            $decision = ($pourcentage >= 80) ? 'GD' : (($pourcentage >= 70) ? 'D' : (($pourcentage >= 50) ? 'S' : 'A'));
+                            $decision =
+                                $pourcentage >= 80
+                                    ? 'GD'
+                                    : ($pourcentage >= 70
+                                        ? 'D'
+                                        : ($pourcentage >= 50
+                                            ? 'S'
+                                            : 'A'));
                         }
                     @endphp
                     {{ $decision }}
